@@ -21,10 +21,10 @@ TotalNum=g(1)*NumOfGroups;
 teams=randi([1 1000],g(1),100);
 pref_list=findPrefTable(users_mv,items_mv,TopN,NoUsers,NoItems);
 
-bordaItem=zeros(NoItems,NumOfGroups,4);%for each g in vector
-for j=1:4
-    gj=g(j);
-    teams=randi([1 1000],gj,100);
+bordaItem=zeros(NoItems,NumOfGroups);%for each g in vector
+%for j=1:4
+ %   gj=g(j);
+    teams=randi([1 1000],g(1),100);
     for k=1:NumOfGroups % for each team compute the borda score
         for u=1:g(1) %for each user
             user=teams(u,k);
@@ -35,7 +35,6 @@ for j=1:4
             end
         end
     end
-end
-
-[~,I] = max(bordaItem);
+%end
+[M,I] = max(bordaItem);
 

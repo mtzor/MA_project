@@ -1,4 +1,4 @@
-function [f_list]=findPrefTable(users_mv,items_mv,TopN,NoUsers,NoItems)
+function [f_list,ratings]=findPrefTable(users_mv,items_mv,TopN,NoUsers,NoItems)
     D=8;
     rmax=10;
     
@@ -21,4 +21,5 @@ function [f_list]=findPrefTable(users_mv,items_mv,TopN,NoUsers,NoItems)
     end
     
     f_list=f_item;
+    ratings=r;
 end

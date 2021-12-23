@@ -3,6 +3,7 @@ close all;
 %%%%%%%%%%%%%%excel Open%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 sheet = 1;
 
+%gg
 users_filename =  'C:\Users\giorg\Downloads\multiagentsystems\users.xls';
 userRange = 'A2:K1001';
 users_mv = xlsread(users_filename,sheet,userRange);

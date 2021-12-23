@@ -48,7 +48,7 @@ end
      i=i+1
  end
  
- if budget_cost>item_cost
+ if budget_cost>=item_cost
     weight=(item_cost)/budget_cost
     x(:,1)=c*budgets(:,1)*weight
     y=sum(x)

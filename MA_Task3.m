@@ -5,12 +5,15 @@ close all;
 sheet = 1;
 NoUsers=1000;
 
-users_filename = 'C:\Users\Kyriakos\Desktop\polloi007\ergasia\users.xls';
-opts = detectImportOptions(users_filename);
-opts.SelectedVariableNames = [3:10];
-opts.DataRange = '2:1001';
+users_filename = 'C:\Users\mtzortzi\Downloads\users.xls';
 
-users_mv = readmatrix(users_filename,opts);
+%opts = detectImportOptions(users_filename);
+%opts.SelectedVariableNames = [3:10];
+%opts.DataRange = '2:1001';
+
+%users_mv = readmatrix(users_filename,opts);
+userRange = 'C2:J1001';
+users_mv = xlsread(users_filename,sheet,userRange);
 
 %create similarityList, a list that describes how
 %similar each user is to each other. As for the
@@ -27,7 +30,7 @@ for i=1:NoUsers
         similarityList(i,j)=similarityList(j,i);
     end
     %calculate similarity compared to the rest of the users
-    for j=(i+1):NoUsers-1
+    for j=(i+1):NoUsers
         %?k(Mi[k] ? avg{Mi}) · (Mj [k] ? avg{Mj})
         S1=0.0;
         for k=1:size(users_mv,2)
@@ -93,7 +96,7 @@ end
 [~,IB] = max(bordaItem);
 
 
-copelandItem=zeros(NoItems,NumOfGroups);%for each g in vector
+copelandItem=zeros(NoItems,NumOfGroups);%for each g in vector %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 for k=1:NumOfGroups % for each team compute the copeland score
     for u=1:groupSize %for each user compare every two items
         user=similarTeams(u,k);
@@ -125,8 +128,9 @@ for sg=1:length(similarTeams)   %for each group
     SBavgScoret(sg)=tempavgScore/groupSize;
 end
     
-SCavgScoret=zeros(1,NumOfGroups);%similar teams copeland average score table
-for sg=1:length(similarTeams)   %for each group
+SCavgScoret=zeros(1,NumOfGroups);%similar teams copeland average score table 
+
+for sg=1:length(similarTeams)   %for each group%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     tempavgScore=0.0;
     for u=1:groupSize   %for each user
         tempavgScore=tempavgScore+ratings(IC(sg),similarTeams(u,sg));
@@ -135,7 +139,7 @@ for sg=1:length(similarTeams)   %for each group
 end
 
 bordaItem=zeros(NoItems,NumOfGroups);%for each g in vector
-for k=1:NumOfGroups % for each team compute the borda score
+for k=1:NumOfGroups % for each team compute the borda score%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     for u=1:groupSize %for each user
         user=divergentTeams(u,k);
         for i=1:NoItems % for each item in their list
@@ -174,7 +178,7 @@ end
 
 
 
-DBavgScoret=zeros(1,NumOfGroups);%divergent teams borda average score table
+DBavgScoret=zeros(1,NumOfGroups);%divergent teams borda average score table %%%%%%%%%%sSEE IF IT CAN BE A FUNCTION%%%%%%%%%%%%%%%%%%%%%%
 for sg=1:length(divergentTeams)   %for each group
     tempavgScore=0.0;
     for u=1:groupSize   %for each user
@@ -183,7 +187,7 @@ for sg=1:length(divergentTeams)   %for each group
     DBavgScoret(sg)=tempavgScore/groupSize;
 end
     
-DCavgScoret=zeros(1,NumOfGroups);%divergent teams copeland average score table
+DCavgScoret=zeros(1,NumOfGroups);%divergent teams copeland average score table%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 for sg=1:length(divergentTeams)   %for each group
     tempavgScore=0.0;
     for u=1:groupSize   %for each user

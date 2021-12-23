@@ -20,8 +20,46 @@ NumOfGroups=10;
 gc=g(1);
 
 TotalNum=gc*NumOfGroups;
-teams=randi([1 1000],gc,NumOfGroups);
+teams=randi([1 1000],gc,NumOfGroups);% making random teams of gc users
+%finding users preference lists and ratings for every item
 [pref_list,ratings]=findPrefTable(users_mv,items_mv,TopN,NoUsers,NoItems);
 
-r_thresh=ratings>6;
+r_thresh=ratings>6;% for every user find all items with ratings more than 6 
+item_approvals=sum(r_thresh,2);% add rows to get approval for each item
+
+checked_nums=[];
+C={};
+for i=1:NoItems % for each item
+    number=item_approvals(i);% get number of approvals
+    if(ismember(number,checked_nums)==false)% if we havent checked it yet
+       
+        is_equal_indexes=find(item_approvals==number);%find indeces of it 
+        C{1,end+1} = number;%add team to cell
+        C{2,end} =is_equal_indexes ;% add number to cell
+        checked_nums=[checked_nums number];% add number to checked ones
+        
+    end
+end
+
+[~, idx] = sort([C{1,:}],'descend');
+C = C(:, idx);
+
+K=50;
+S=[];
+for i=1:K
+   %sort by voter appreciation
+    [~, idx] = sort([C{1,:}],'descend');
+    C = C(:, idx);
+    %chose one from the first group
+    Si=cell2mat(C(2,1));%chosen group
+    candidate_indx=randi([1 size(Si,1)],1);%random candidate index in group
+    candidate=Si(candidate_indx);%random candidate
+    S=[S candidate];%adding candidate to chosen group
+    
+    half_value=cell2mat(C(1,1))/2;
+    C(1,1)=num2cell(half_value);
+end
+
+y=5;
+
 

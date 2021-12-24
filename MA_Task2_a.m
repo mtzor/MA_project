@@ -24,4 +24,4 @@ teams=randi([1 1000],gc,NumOfGroups);
 
 IB=findBordaItems(teams,NumOfGroups,gc,NoItems,pref_list);
 
-IC=findBordaItems(teams,NumOfGroups,gc,NoItems,pref_list);
+IC=findCopelandItems(teams,NumOfGroups,gc,NoItems,pref_list);

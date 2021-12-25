@@ -2,18 +2,18 @@ clear all;
 close all;
 %%%%%%%%%%%%%%excel Open%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 sheet = 1;
-users_filename =  'C:\Users\mtzortzi\Downloads\users.xls';
+users_filename =  'C:\Users\giorg\Downloads\multiagentsystems\users.xls';
 userRange = 'A2:K1001';
 users_mv = xlsread(users_filename,sheet,userRange);
 
-items_filename =  'C:\Users\mtzortzi\Downloads\items.xls';
+items_filename =  'C:\Users\giorg\Downloads\multiagentsystems\items.xls';
 itemRange = 'A2:K501';
 items_mv = xlsread(items_filename,sheet,itemRange);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 NumOfGroups=1;
 g=[5,10,15,20];
-NoUsers=g(4);
+NoUsers=g(2);
 NoItems=500;
 
 teams=randi([0 999],NoUsers,NumOfGroups);
@@ -43,7 +43,7 @@ sel_item = feasible_items(ind,:);
  NoItems=1
  [~,r]=findPrefTable(users_mv(:,3:10),sel_item(1,3:10),1,NoUsers,NoItems);
 
-  c=(r-min(r))/(max(r)-min(r));%normalised weight based on rating
+  c=(r-min(r))/(max(r)-min(r));%normalised weight based on rating e [0,1]
   item_cost=sel_item(11);
   weighted_budgets=c.*budgets;
   budget_cost=sum(weighted_budgets); %total budget of all users based on their rating and budget
@@ -64,7 +64,7 @@ sel_item = feasible_items(ind,:);
         z=sum(x);
         money_deficit=item_cost-z;%what they could not pay based on their budget
         
-        %rearrange users teams their budgets and expected payments based on
+        %rearrange users, teams, their budgets and expected payments based on
         %their ratings. From the most satisfied to the least
         r_users=[r; transpose(teams) ;budgets;x];
         [~,index]=sort(r_users(1,:),'descend');
@@ -73,9 +73,9 @@ sel_item = feasible_items(ind,:);
         %make the players pay for the money deficit starting with the most satisfied ones 
         for i=1:NoUsers% for each user
             if money_deficit>0    %if we still need to cover some costs     
-                if r_users(3,i) > r_users(4,i)%if budget grater than requested payment
+                if r_users(3,i) > r_users(4,i)%if budget greater than requested payment
 
-                    if (money_deficit<(r_users(3,i)-r_users(4,i)))    %if the money needed left is less than the players remainder money                  
+                    if (money_deficit<(r_users(3,i)-r_users(4,i)))    %if the money needed left is less or equal than the players remaining money                  
                         r_users(4,i)=r_users(4,i)+money_deficit;%pay the previous cost plus the deficit
                         money_deficit=0;%no more money needed
                     else%f the money needed left is more than the players remainder money 

@@ -6,7 +6,8 @@ TopN = 500;
 NoUsers=1000;
 NoItems=500;
 thresh=6;
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%importing items and users gaussians
 users_filename =  'C:\Users\mtzortzi\Downloads\users.xls';
 userRange = 'C2:J1001';
 users_mv = xlsread(users_filename,sheet,userRange);
@@ -14,7 +15,7 @@ users_mv = xlsread(users_filename,sheet,userRange);
 items_filename = 'C:\Users\mtzortzi\Downloads\items.xls';
 itemRange = 'C2:J501';
 items_mv = xlsread(items_filename,sheet,itemRange);
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 g=[5,10,15,20];
 NumOfGroups=10;
 gc=g(1);
@@ -27,6 +28,8 @@ teams=randi([1 1000],gc,NumOfGroups);% making random teams of gc users
 r_thresh=ratings>6;% for every user find all items with ratings more than 6 
 item_approvals=sum(r_thresh,2);% add rows to get approval for each item
 
+
+%%%%Group items based on their approval count %%%%%%%%%%
 checked_nums=[];
 C={};
 for i=1:NoItems % for each item
@@ -40,12 +43,19 @@ for i=1:NoItems % for each item
         
     end
 end
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%sort groups of items based on their number of approvals
 [~, idx] = sort([C{1,:}],'descend');
 C = C(:, idx);
 
 K=50;
 S=[];
+%applying the Reweighted Approval Method by 
+%sorting groups based on their values, 
+%choosing one candidate item from the group with highest value
+%adding the candidate to the chosen selection
+%and halfing the groups value
+%repeating k times
 for i=1:K
    %sort by voter appreciation
     [~, idx] = sort([C{1,:}],'descend');
@@ -56,7 +66,7 @@ for i=1:K
     candidate=Si(candidate_indx);%random candidate
     S=[S candidate];%adding candidate to chosen group
     
-    half_value=cell2mat(C(1,1))/2;
+    half_value=cell2mat(C(1,1))/2;% halfing groups value
     C(1,1)=num2cell(half_value);
 end
 

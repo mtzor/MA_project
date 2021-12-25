@@ -1,4 +1,22 @@
 function [f_list,ratings]=findPrefTable(users_mv,items_mv,TopN,NoUsers,NoItems)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%findPrefTable is a function that computes the the preference list of a
+%number of users responding to a number of items and each users rating for each of
+%those items
+%
+%ARGUMENTS
+%
+%users_mv:  the users D dimentional gaussian means in correspondence
+%           to certain charactceristics or tags
+%items_mv:  the items D dimentional gaussian means in correspondence
+%           to certain charactceristics or tags
+%TopN:      the number of the top most preferable items we want the
+%           function to compute
+%NoUsers:   the number of the first N users whose preferences are computed
+%           in this function
+%NoItems:   the total number of items on  which the preferences are computed
+%           
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     D=8;
     rmax=10;
     

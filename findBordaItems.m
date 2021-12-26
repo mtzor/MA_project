@@ -1,15 +1,15 @@
 function BordaItems=findBordaItems(teams,NumOfGroups,NoUsers,NoItems,pref_list)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %findBordaItems is a function that finds the best item for each group from a list of items.
-%               The function computes the the borda count of each
+%               The function computes the borda count of each
 %               item for each group in teams and suggests one item per
-%               team. The one with the highest borda count
+%               team. The item with the highest borda count
 %
 %ARGUMENTS
 %
 %teams:        The groups of users to which we need to suggest an item (an item for each group).
 %          
-%NumOfGroups:  The number of groups we are suugesting an item to.
+%NumOfGroups:  The number of groups we are suggesting an item to.
 %          
 %NoUsers:      The number of users in each group
 %         

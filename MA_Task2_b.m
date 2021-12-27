@@ -70,6 +70,6 @@ for i=1:K
     C(1,1)=num2cell(half_value);
 end
 
-y=5;
+
 
 

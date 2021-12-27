@@ -4,50 +4,17 @@ close all;
 %read user data
 sheet = 1;
 NoUsers=1000;
-
 users_filename = 'C:\Users\mtzortzi\Downloads\users.xls';
-
+userRange = 'C2:J1001';
+users_mv = xlsread(users_filename,sheet,userRange);
 %opts = detectImportOptions(users_filename);
 %opts.SelectedVariableNames = [3:10];
 %opts.DataRange = '2:1001';
-
 %users_mv = readmatrix(users_filename,opts);
-userRange = 'C2:J1001';
-users_mv = xlsread(users_filename,sheet,userRange);
 
 %create similarityList, a list that describes how
-%similar each user is to each other. As for the
-%similarity metric we are using the Pearson
-%Correlation Coefficient (PCC) 
-similarityList=zeros(NoUsers,NoUsers);
-for i=1:NoUsers
-    %Use the data, that we have already calculated
-    %We skip calculating similarity between i and i
-    %because we don't care about it, so we assign the 
-    %value of 0, which is of least significance to us.
-    %If we were to calculate it, it would be 1.
-    for j=1:i    
-        similarityList(i,j)=similarityList(j,i);
-    end
-    %calculate similarity compared to the rest of the users
-    for j=(i+1):NoUsers
-        %?k(Mi[k] ? avg{Mi}) · (Mj [k] ? avg{Mj})
-        S1=0.0;
-        for k=1:size(users_mv,2)
-            S1= S1+(users_mv(i,k)-mean(users_mv(i,:)))*(users_mv(j,k)-mean(users_mv(j,:)));
-        end
-        
-        %??k(Mi[k] ? avg{Mi})^2 ·??k(Mj [k] ? avg{Mj})^2
-        S2i=0.0;
-        S2j=0.0;
-        for k=1:size(users_mv,2)
-            S2i=S2i+(users_mv(i,k)-mean(users_mv(i,:)))^2;
-            S2j=S2j+(users_mv(j,k)-mean(users_mv(j,:)))^2;
-        end
-        S2=(S2i^0.5)*(S2j^0.5);
-        similarityList(i,j)=S1/S2;
-    end
-end
+%similar each user is to each other.
+similarityList=findSimilarityList(users_mv,NoUsers);
 
 g=[5,10,15,20];
 groupSize=g(1);
@@ -77,7 +44,7 @@ for i=1:length(rusers)
     divergentTeams(:,i)=[rusers(i) idx(1:groupSize-1)];
 end
 
-%rerun task 2a
+%%%%%%%%%%%%%%%%%%rerun task 2a%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 TopN = 500;
 NoItems=500;
 % opts.DataRange = '2:501';
@@ -89,26 +56,30 @@ items_mv = xlsread(items_filename,sheet,itemRange);
 
 [pref_list,ratings]=findPrefTable(users_mv,items_mv,TopN,NoUsers,NoItems);
 
+%find borda items for simillar teams
 IB=findBordaItems(similarTeams,NumOfGroups,groupSize,NoItems,pref_list);
-
+%find copeland items for simillar teams
 IC=findCopelandItems(similarTeams,NumOfGroups,groupSize,NoItems,pref_list)
 
-is=(IC==IB)
-si=sum(is);
+is=(IC==IB)%see which borda item recommendations are the same as copeland 
+si=sum(is);%count the number for similar groups
 
+%average score for borda mechanism on simillar teams
 SBavgScoret=averageScoreTable(similarTeams,NumOfGroups,groupSize,IB,ratings);
-
+%average score for copeland mechanism on simillar teams
 SCavgScoret=averageScoreTable(similarTeams,NumOfGroups,groupSize,IC,ratings);
 
+%find borda items for divergent teams
 IB=findBordaItems(divergentTeams,NumOfGroups,groupSize,NoItems,pref_list);
-
+%find copeland items for divergent teams
 IC=findCopelandItems(divergentTeams,NumOfGroups,groupSize,NoItems,pref_list);
 
-id=(IB==IC);
-di=sum(id);
+id=(IB==IC);%see which borda item recommendations are the same as copeland 
+di=sum(id);%count the number for divergent groups
 
+%average score for borda mechanism on divergent teams
 DBavgScoret=averageScoreTable(divergentTeams,NumOfGroups,groupSize,IB,ratings);
-    
+%average score for copeland mechanism on divergent teams   
 DCavgScoret=averageScoreTable(divergentTeams,NumOfGroups,groupSize,IC,ratings);
 
 %Average score of each mechanism

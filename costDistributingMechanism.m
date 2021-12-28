@@ -24,9 +24,9 @@ c=(r-min(r))/(max(r)-min(r));%normalised weight based on rating
 
   if budget_cost<item_cost% if the weighted sum is not enough to cover the cost
 
-        weight=(item_cost)/budget_cost%recalculate weight to cover the cost
-        x=c.*budgets*weight%payment vector initialisation based on normalised ratings and weight to cover cost
-        money_deficit=0%amount of money that users cannot pay because it is over budget after the multiplication with the weight
+        weight=(item_cost)/budget_cost;%recalculate weight to cover the cost
+        x=c.*budgets*weight;%payment vector initialisation based on normalised ratings and weight to cover cost
+        money_deficit=0;%amount of money that users cannot pay because it is over budget after the multiplication with the weight
         y=sum(x);
         % find the users that are expected to cover more than they have and
         % make them pay their budget

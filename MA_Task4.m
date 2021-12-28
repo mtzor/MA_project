@@ -16,7 +16,7 @@ g=[5,10,15,20];
 NoUsers=g(4);
 NoItems=500;
 
-teams=randi([0 999],NoUsers,NumOfGroups);
+teams=randi([1 1000],NoUsers,NumOfGroups);
 %find budgets of players in each group and feasible items for the group
 [budgets,feasible_items]=findFeasibleItemsList(users_mv,items_mv,teams,NoUsers,NoItems);
 

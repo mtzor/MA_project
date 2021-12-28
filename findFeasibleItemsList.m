@@ -22,7 +22,7 @@ group_budget=0;
     %%%Find total budget of the chosen team
     for k=1:NoUsers
         user=teams(k);
-        user_budget=users_mv(user+1,11);
+        user_budget=users_mv(user,11);
         group_budget=  user_budget +group_budget;
         budgets(k) =user_budget;
     end

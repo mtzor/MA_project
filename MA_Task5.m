@@ -24,6 +24,31 @@ NoUsersPerGroup=g(5);
 %uncomment for random groups
 groups=randi([1 1000],NoUsersPerGroup,NoOfGroups);
 
+similarityList=findSimilarityList(users_mv(:,3:10),NoUsers);
+
+%pick 100 random users
+rusers=randperm(NoUsers,NoOfGroups);
+%create 100 similar groups, with users most similar to the 100 random users.
+%AKA we pick the g-1 most similar users to each random user to form each group.
+similarTeams=zeros(NoUsersPerGroup,NoOfGroups);
+for i=1:length(rusers)
+  [~,idx]=sort(similarityList(rusers(i),:),'descend');
+  similarTeams(:,i)=[rusers(i) idx(1:NoUsersPerGroup-1)];
+end
+
+%pick 100 random users
+rusers=randperm(NoUsers,NoOfGroups);
+%create 100 divergent groups, with users least similar to the 100 random users.
+%AKA we pick the g-1 least similar users to each random user to form each group.
+divergentTeams=zeros(NoUsersPerGroup,NoOfGroups);
+for i=1:length(rusers)
+    [~,idx]=sort(similarityList(rusers(i),:),'ascend');
+    divergentTeams(:,i)=[rusers(i) idx(1:NoUsersPerGroup-1)];
+end
+
+%groups=divergentTeams;
+groups=similarTeams;
+
 [pref_list,r]=findPrefTable(users_mv(:,3:10),items_mv(:,3:10),TopN,NoUsers,NoItems);
 %user satisfaction for i item
 %);

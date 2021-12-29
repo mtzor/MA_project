@@ -17,15 +17,15 @@ function x=costDistributingMechanism(group,r,sel_item,budgets,NoUsers)
 %NoUsers:           The number of users in each group
 %          
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-c=(r-min(r))/(max(r)-min(r));%normalised weight based on rating
+  rating_weight=(r-min(r))/(max(r)-min(r));%normalised weight based on rating
   item_cost=sel_item(11);
-  weighted_budgets=c.*budgets;
-  budget_cost=sum(weighted_budgets); %total budget of all users based on their rating and budget
+  rating_weighted_budgets=rating_weight.*budgets;
+  rating_weighed_cost=sum(rating_weighted_budgets); %total budget of all users based on their rating and budget
 
-  if budget_cost<item_cost% if the weighted sum is not enough to cover the cost
+  if rating_weighed_cost<item_cost% if the weighted sum is not enough to cover the cost
 
-        weight=(item_cost)/budget_cost;%recalculate weight to cover the cost
-        x=c.*budgets*weight;%payment vector initialisation based on normalised ratings and weight to cover cost
+        weight=(item_cost)/rating_weighed_cost;%recalculate weight to cover the cost
+        x=rating_weighted_budgets*weight;%payment vector initialisation based on normalised ratings and weight to cover cost
         money_deficit=0;%amount of money that users cannot pay because it is over budget after the multiplication with the weight
         y=sum(x);
         % find the users that are expected to cover more than they have and
@@ -63,8 +63,8 @@ c=(r-min(r))/(max(r)-min(r));%normalised weight based on rating
         y=sum(x);
   end
  
- if budget_cost>=item_cost%if the budget is over the  item price
-    weight=(item_cost)/budget_cost;%weight to reduce to item price
-    x=c.*budgets*weight;%payment vector x
+ if rating_weighed_cost>=item_cost%if the budget is over the  item price
+    weight=(item_cost)/rating_weighed_cost;%weight to reduce to item price
+    x=rating_weighted_budgets *weight;%payment vector x
     y=sum(x);% make sure that sum x equals to item price
  end

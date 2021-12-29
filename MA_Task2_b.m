@@ -49,7 +49,7 @@ end
 C = C(:, idx);
 
 K=50;
-S=[];
+S=zeros(1,K);
 %applying the Reweighted Approval Method by 
 %sorting groups based on their values, 
 %choosing one candidate item from the group with highest value
@@ -64,7 +64,7 @@ for i=1:K
     Si=cell2mat(C(2,1));%chosen group
     candidate_indx=randi([1 size(Si,1)],1);%random candidate index in group
     candidate=Si(candidate_indx);%random candidate
-    S=[S candidate];%adding candidate to chosen group
+    S(i)=candidate;%adding candidate to chosen group
     
     half_value=cell2mat(C(1,1))/2;% halfing groups value
     C(1,1)=num2cell(half_value);

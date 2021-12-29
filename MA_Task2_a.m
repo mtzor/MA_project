@@ -42,13 +42,13 @@ for g=1:NumOfGroups
     
     ratingsB=zeros(1,gc);
     ratingsC=zeros(1,gc);
-   for u=1:gc
+   for u=1:gc%find all reatings for this item
        user=teams(u,g);
        ratingsB(u)=r(chosen_itemB,user);
        ratingsC(u)=r(chosen_itemC,user);
    end
    
-   rb_mean(g)=mean(ratingsB);
+   rb_mean(g)=mean(ratingsB);%calculate the mean of ratings for this mechanism
    rc_mean(g)=mean(ratingsC);
 end
 

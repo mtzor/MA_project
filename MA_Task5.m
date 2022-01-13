@@ -2,11 +2,11 @@ clear all;
 close all;
 %%%%%%%%%%%%%%excel Open%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 sheet = 1;
-users_filename =  'C:\Users\giorg\Downloads\multiagentsystems\users.xls';
+users_filename =  'C:\Users\mtzortzi\Downloads\users.xls';
 userRange = 'A2:K1001';
 users_mv = xlsread(users_filename,sheet,userRange);
 
-items_filename =  'C:\Users\giorg\Downloads\multiagentsystems\items.xls'
+items_filename =  'C:\Users\mtzortzi\Downloads\items.xls'
 itemRange = 'A2:K501';
 items_mv = xlsread(items_filename,sheet,itemRange);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -102,6 +102,6 @@ g=[4 6 8 10 12];
     end
     
     userRange = 'A1:CV1';
-    
-    xlswrite('C:\Users\giorg\Downloads\multiagentsystems\average_satisfaction_similar_g5.xlsx',average_satisfaction,userRange)
+    mean_average_satisfuction=mean(average_satisfaction);
+    xlswrite('C:\Users\mtzortzi\Downloads\MA_proj\average_satisfaction_divergent_g5.xlsx',average_satisfaction,userRange)
 

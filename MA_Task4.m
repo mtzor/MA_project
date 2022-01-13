@@ -13,10 +13,11 @@ items_mv = xlsread(items_filename,sheet,itemRange);
 
 NumOfGroups=1;
 g=[5,10,15,20];
-NoUsers=g(4);
+NoUsers=g(3);
 NoItems=500;
 
 teams=randi([1 1000],NoUsers,NumOfGroups);
+%%%%%%%%%%%%%%% 4 A %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %find budgets of players in each group and feasible items for the group
 [budgets,feasible_items]=findFeasibleItemsList(users_mv,items_mv,teams,NoUsers,NoItems);
 
